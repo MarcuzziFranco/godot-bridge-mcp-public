@@ -108,7 +108,11 @@ pip install websockets>=10.0
    - **Windows/Linux**: `%USERPROFILE%/.cursor/mcp.json` o `~/.cursor/mcp.json`
    - **macOS**: `~/.cursor/mcp.json`
 
-2. Agrega la configuración del servidor:
+2. Agrega la configuración del servidor. Hay **dos opciones**:
+
+#### Opción A: Token por Archivo (Recomendado)
+
+Esta opción usa `GODOT_TOKEN_FILE` para leer el token desde el archivo generado por el plugin. Es más seguro y el token se actualiza automáticamente:
 
 ```json
 {
@@ -117,14 +121,40 @@ pip install websockets>=10.0
       "command": "python",
       "args": ["C:/RUTA/COMPLETA/mcp-server/src/main.py"],
       "env": {
-        "GODOT_TOKEN_FILE": "C:/Users/TU_USUARIO/AppData/Roaming/Godot/app_userdata/TU_PROYECTO/godotbridge_token.txt"
+        "GODOT_WS_URL": "ws://127.0.0.1:49631",
+        "GODOT_TOKEN_FILE": "C:/Users/TU_USUARIO/AppData/Roaming/Godot/app_userdata/TU_PROYECTO/godotbridge_token.txt",
+        "GODOT_MCP_VERBOSE": "1"
       }
     }
   }
 }
 ```
 
-> ⚠️ **Importante**: Reemplaza las rutas con las correctas de tu sistema.
+#### Opción B: Token Directo
+
+Esta opción usa `GODOT_TOKEN` con el valor del token directamente. Útil para configuraciones rápidas o cuando no quieres depender de la ruta del archivo:
+
+```json
+{
+  "mcpServers": {
+    "godot": {
+      "command": "python",
+      "args": ["C:/RUTA/COMPLETA/mcp-server/src/main.py"],
+      "env": {
+        "GODOT_WS_URL": "ws://127.0.0.1:49631",
+        "GODOT_TOKEN": "tu_token_aqui_desde_godotbridge_token.txt",
+        "GODOT_MCP_VERBOSE": "1"
+      }
+    }
+  }
+}
+```
+
+> ⚠️ **Importante**: 
+> - Reemplaza las rutas con las correctas de tu sistema.
+> - El token se encuentra en el archivo `godotbridge_token.txt` generado por el plugin.
+> - Si usas la Opción B, deberás actualizar el token manualmente si cambia.
+> - `GODOT_MCP_VERBOSE` es opcional, actívalo con `"1"` para ver logs detallados.
 
 3. Reinicia Cursor para cargar la configuración.
 
